@@ -8,7 +8,7 @@ const app = express();
 app.use(cors()); 
 
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: ['http://localhost:5173', "https://lighting-three.vercel.app"],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
