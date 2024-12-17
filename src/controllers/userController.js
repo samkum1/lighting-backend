@@ -1,3 +1,4 @@
+const Bandwidth = require('../Models/BandwidthModel');
 const {
     createUserResidential,
     createProxyUserResidential,
@@ -58,7 +59,8 @@ const fetchAccountInfo = async (req, res) => {
 
 const fetchUsernameInfo = async (req, res) => {
     try {
-        const result = await usernameInfo(req.body);
+        const {username} = req.body
+        const result = await Bandwidth.findOne({userName: username});
         sendSuccessResponse(res, result, 'Username info fetched successfully.');
     } catch (error) {
         sendErrorResponse(res, error.message);
@@ -74,6 +76,22 @@ const fetchCountry = async (req, res) => {
     }
 };
 
+const updateUserNameInfo = async (username) => {
+    try {
+        const result = await usernameInfo({username});
+        const { bandwidthLeft, all_buy, used } = result
+     
+        const updatedBandwidth = await Bandwidth.findOneAndUpdate(
+            { userName: username },
+            { $set: { bandwidthLeft, all_buy, used } },
+            { new: true, runValidators: true }
+        );
+        console.log(updatedBandwidth, 'UserName Info Updated Successfully');
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
 module.exports = {
     createUser,
     createProxyUser,
@@ -81,5 +99,6 @@ module.exports = {
     fetchAccountInfo,
     fetchUsernameInfo,
     proxyList,
-    fetchCountry
+    fetchCountry,
+    updateUserNameInfo
 };

@@ -7,6 +7,7 @@ const {
     fetchUsernameInfo,
     proxyList,
     fetchCountry,
+    updateUserNameInfo,
 } = require('../controllers/userController');
 
 const router = express.Router();
@@ -19,5 +20,7 @@ router.post('/account-info', fetchAccountInfo);
 router.post('/username-info', fetchUsernameInfo);
 router.post('/proxy-list', proxyList);
 router.post('/country-state-city', fetchCountry);
+
+router.post('/update-username-info', updateUserNameInfo)
 
 module.exports = router;
